@@ -32,13 +32,22 @@ class _MyHomePageState extends State<MyHomePage> {
     ['football', 'cricket', 'badminton', 'volleyball'],
   ];
 
+  final List<int> answers = [3, 2, 0];
+
+  String result = '';
+
   void stater() {
     setState(() {
-      if (counter < options.length - 1)
-        counter++;
-      else {
+      if (counter < options.length) counter++;
+      /* else {
         counter = 0;
-      }
+      } */
+    });
+  }
+
+  void resetter() {
+    setState(() {
+      counter = 0;
     });
   }
 
@@ -48,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       int x = counter2;
       counter2 = 0;
+
       return x;
     }
   }
@@ -75,24 +85,54 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('Quiz App'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Center(
-                child: Text(
-              question[counter],
-              style: TextStyle(
-                fontSize: 24,
-              ),
-            )),
-          ),
-          buttoner(),
-          buttoner(),
-          buttoner(),
-          buttoner(),
-        ],
-      ),
+      body: counter < question.length
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Center(
+                      child: Text(
+                    question[counter],
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  )),
+                ),
+                buttoner(),
+                buttoner(),
+                buttoner(),
+                buttoner(),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                    'Done',
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  width: 200,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: FlatButton(
+                      color: Colors.amber,
+                      child: Text('Reset'),
+                      onPressed: resetter,
+                    ),
+                  ),
+                )
+              ],
+            ),
     );
   }
 }
